@@ -11,7 +11,7 @@ body {
 }
 
 .container {
-  width: 300px;
+  width: 80%;
   background-color: rgb(238, 233, 235);
   padding: 1rem;
   display: flex;
