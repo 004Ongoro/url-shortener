@@ -30,7 +30,7 @@ func shortenHandler(w http.ResponseWriter, r *http.Request){
 	shortCode := GenerateShortCode()
 	urlStore[shortCode] = longUrl
 
-	fmt.Fprintf(w, "http://localhost:8080/%s", shortCode)
+	fmt.Fprintf(w, "http://localhost:10000/%s", shortCode)
 }
 
 func redirectHandler(w http.ResponseWriter, r *http.Request){
@@ -58,6 +58,6 @@ func main(){
 	http.HandleFunc("/shorten", shortenHandler)
 	http.HandleFunc("/red", redirectHandler)
 
-	fmt.Println("Server is running on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	fmt.Println("Server is running on http:gurulo.onrender.com:10000")
+	log.Fatal(http.ListenAndServe(":10000", nil))
 }
