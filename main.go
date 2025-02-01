@@ -1,28 +1,28 @@
 package main
 
 import (
+	"crypto/rand"
+	"encoding/base64"
 	"fmt"
 	"log"
 	"net/http"
-	"crypto/rand"
-	"encoding/base64"
 	"strings"
 )
 
-var urlStore = make(map[string] string)
+var urlStore = make(map[string]string)
 
-func homeHandler(w http.ResponseWriter, r *http.Request){
+func homeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome to URL Shortener!")
 }
 
-func shortenHandler(w http.ResponseWriter, r *http.Request){
-	if r.Method != http.MethodPost{
-		http.Error(w, "Ony POST method is allowed", http.StatusMethodNotAllowed)
+func shortenHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Only POST method is allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
 	longUrl := r.FormValue("url")
-	if longUrl== ""{
+	if longUrl == "" {
 		http.Error(w, "URL is required", http.StatusBadRequest)
 		return
 	}
@@ -30,10 +30,11 @@ func shortenHandler(w http.ResponseWriter, r *http.Request){
 	shortCode := GenerateShortCode()
 	urlStore[shortCode] = longUrl
 
-	fmt.Fprintf(w, "https://gurulo.onrender.com/%s", shortCode)
+
+	fmt.Fprintf(w, "https://gurulo.onrender.com/r/%s", shortCode)
 }
 
-func redirectHandler(w http.ResponseWriter, r *http.Request){
+func redirectHandler(w http.ResponseWriter, r *http.Request) {
 	shortCode := strings.TrimPrefix(r.URL.Path, "/r/")
 	longUrl, exists := urlStore[shortCode]
 
@@ -52,11 +53,11 @@ func GenerateShortCode() string {
 	return strings.TrimRight(code, "=")
 }
 
-func main(){
+func main() {
 	http.Handle("/", http.FileServer(http.Dir("static")))
 	http.HandleFunc("/shorten", shortenHandler)
 	http.HandleFunc("/r/", redirectHandler)
 
-	fmt.Println("Server is running on http:gurulo.onrender.com:10000")
+	fmt.Println("Server is running on http://gurulo.onrender.com:10000")
 	log.Fatal(http.ListenAndServe(":10000", nil))
 }
