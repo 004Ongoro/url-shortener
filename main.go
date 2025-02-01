@@ -56,7 +56,7 @@ func GenerateShortCode() string {
 func main(){
 	http.Handle("/", http.FileServer(http.Dir("static")))
 	http.HandleFunc("/shorten", shortenHandler)
-	http.HandleFunc("/red", redirectHandler)
+	http.HandleFunc("/", redirectHandler)
 
 	fmt.Println("Server is running on http:gurulo.onrender.com:10000")
 	log.Fatal(http.ListenAndServe(":10000", nil))
