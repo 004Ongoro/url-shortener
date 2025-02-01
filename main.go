@@ -34,7 +34,7 @@ func shortenHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func redirectHandler(w http.ResponseWriter, r *http.Request){
-	shortCode := strings.TrimPrefix(r.URL.Path, "/")
+	shortCode := strings.TrimPrefix(r.URL.Path, "/r/")
 	longUrl, exists := urlStore[shortCode]
 
 	if !exists {
