@@ -30,7 +30,7 @@ func shortenHandler(w http.ResponseWriter, r *http.Request){
 	shortCode := GenerateShortCode()
 	urlStore[shortCode] = longUrl
 
-	fmt.Fprintf(w, "http://localhost:10000/%s", shortCode)
+	fmt.Fprintf(w, "https://gurulo/%s", shortCode)
 }
 
 func redirectHandler(w http.ResponseWriter, r *http.Request){
