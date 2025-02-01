@@ -34,8 +34,7 @@ func shortenHandler(w http.ResponseWriter, r *http.Request){
 }
 
 func redirectHandler(w http.ResponseWriter, r *http.Request){
-	shortCode := r.URL.Path[1:]
-
+	shortCode := strings.TrimPrefix(r.URL.Path, "/")
 	longUrl, exists := urlStore[shortCode]
 
 	if !exists {
@@ -56,7 +55,7 @@ func GenerateShortCode() string {
 func main(){
 	http.Handle("/", http.FileServer(http.Dir("static")))
 	http.HandleFunc("/shorten", shortenHandler)
-	http.HandleFunc("/", redirectHandler)
+	http.HandleFunc("/r/", redirectHandler)
 
 	fmt.Println("Server is running on http:gurulo.onrender.com:10000")
 	log.Fatal(http.ListenAndServe(":10000", nil))
